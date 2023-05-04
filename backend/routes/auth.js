@@ -7,7 +7,7 @@ const router = express.Router();
 //  this post router will help to register the user
 router.post('/register', async(req, res)=>{
     // step 1 : req.body = firstname ,lastname ,username ,password email
-    const {email,password,firstName,lastName,userneme} = req.body;
+    const {email,password,firstName,lastName,username} = req.body;
     // step 2 :does the user this email already exist or not?
     const user =await User.findOne({email: email});
     if(user){
@@ -19,7 +19,7 @@ router.post('/register', async(req, res)=>{
     // note : we do not use plain text in password 
     // so we convert the plain text to hash. 
     const haspPassword =bcrypt.hash(password,process.env.SALT_VALUE);
-    const newUserData ={email,password:haspPassword,firstName,lastName,userneme}
+    const newUserData ={email,password:haspPassword,firstName,lastName,username}
     const newUser =await User.create(newUserData);
     // step 4: create unique token to return to the user
 
