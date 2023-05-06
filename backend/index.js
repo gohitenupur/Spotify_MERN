@@ -3,6 +3,7 @@ const express = require('express')
 const dotenv = require('dotenv')
 
 const authRoutes = require("./routes/auth")
+const songRoutes = require("./routes/song")
 
 const app = express()
 dotenv.config();
@@ -16,6 +17,7 @@ mongoDB();
 app.use(express.json());
 
 app.use('/auth',authRoutes);
+app.use("/song",songRoutes);
 
 app.listen(port,()=>{
     console.log(`listening on ${port}`)
