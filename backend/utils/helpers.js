@@ -1,9 +1,9 @@
-const jwt =require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
 
-exports ={}
-exports.getToken =async(email,user)=>{
-    const token =jwt.sign({identifier:user._id},process.env.SECRET_KEY);
-    return token.token;
-}
+exports.getToken = async (email, userId) => {
+  const token = jwt.sign({ identifier: userId }, process.env.SECRET_KEY);
+  return token;
+};
 
-module.exports =exports
+
+

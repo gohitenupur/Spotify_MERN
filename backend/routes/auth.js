@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
-const User = require('../models/User')
-const {getToken} = require('../utils/helpers');
+const User = require('../models/User');
+const { getToken } = require("../utils/helpers");
 const router = express.Router();
 
 //  this post router will help to register the user
@@ -18,18 +18,21 @@ router.post('/register', async(req, res)=>{
     // step 3 : create a new user in the database
     // note : we do not use plain text in password 
     // so we convert the plain text to hash. 
-    const haspPassword =bcrypt.hash(password,10);
-    const newUserData ={email,password:haspPassword,firstName,lastName,username}
+    const hashedPassword = await bcrypt.hash(password,10);
+    const newUserData ={email,password: hashedPassword, firstName, lastName, username}
     const newUser =await User.create(newUserData);
     // step 4: create unique token to return to the user
 
-    const token =await getToken(email,newUser); // we have to make it 
+    const token = await getToken(email, newUser._id);
+     // we have to make it 
     // step 5  return the result to user
+    // console.log(token);
+    const userToReturn ={...newUser, token};
 
-    const userToReturn ={...newUser,token};
     delete userToReturn.password; // not return to the user back
     return res.status(200).json(userToReturn);
-})
+});
+
 
 // login the user
 router.post('/login',async(req, res) => {
@@ -51,6 +54,7 @@ router.post('/login',async(req, res) => {
 
     // step 4 if the credentials are correct , return a token to the user
     const token = await getToken(user.email,user);
+    // console.log(token);
     const userToReturn ={...user.toJSON(),token};
     delete userToReturn.password;
     return res.status(200).json(userToReturn);
