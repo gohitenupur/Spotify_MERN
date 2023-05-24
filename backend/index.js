@@ -4,6 +4,7 @@ const dotenv = require('dotenv')
 
 const authRoutes = require("./routes/auth")
 const songRoutes = require("./routes/song")
+const playlistRoutes = require("./routes/playlist")
 
 const app = express()
 dotenv.config();
@@ -18,6 +19,7 @@ app.use(express.json());
 
 app.use('/auth',authRoutes);
 app.use("/song",songRoutes);
+app.use("/playlist",playlistRoutes);
 
 app.listen(port,()=>{
     console.log(`listening on ${port}`)
