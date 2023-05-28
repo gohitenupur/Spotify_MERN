@@ -1,6 +1,6 @@
 // use express
 const express = require('express')
-const dotenv = require('dotenv')
+const dotenv = require('dotenv');
 
 const authRoutes = require("./routes/auth")
 const songRoutes = require("./routes/song")

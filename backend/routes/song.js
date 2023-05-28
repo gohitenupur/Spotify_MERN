@@ -27,12 +27,17 @@ router.get('/get/mysongs',passport.authenticate('jwt',{session:false}), async(re
     return res.status(200).json({data:song})
 });
 
+
+
+
 // get route to get all the songs any artist has published
 // i will send id and i want to see all the songs that artist has published
-router.get('/get/artist',passport.authenticate("jwt",{session:false}), async(req,res)=>{
-    const {artistId} = req.body;
+router.get('/get/artist/:artistId',passport.authenticate("jwt",{session:false}), async(req,res)=>{
+    const {artistId} = req.params;
     // we can check artist does not exist
-    const artist = await User.find({_id: artistId})
+    const artist = await User.findOne({_id: artistId})
+    // console.log(artist)
+    // ![]=false // !null =true // !undefined =true
     if(!artist){
         return res.status(301).json({err :"Artist does not exist"});
     }
@@ -42,8 +47,8 @@ router.get('/get/artist',passport.authenticate("jwt",{session:false}), async(req
 
 
 // get route to get a single song by name
-router.get("/get/songname",passport.authenticate("jwt",{session:false}),async(req,res)=>{
-    const {songName} = req.body;
+router.get("/get/songname/:songName",passport.authenticate("jwt",{session:false}),async(req,res)=>{
+    const {songName} = req.params;
     // name :songname ->exact name matching 
     // todo pattern  matching instend of direct name matching
     const song =await Song.find({name:songName})
